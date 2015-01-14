@@ -23,7 +23,11 @@ Puppet::Type.type(:user).provide(
     File.open(passwd_file) do |f|
       f.each_line do |line|
         if line.match(/^[\w-]+:/)
-          objects << new(:name => line.split(':').first, :ensure => :present)
+          objects << new(
+            :name   => line.split(':').[0],
+            :shell  => line.split(':')[6],
+            :ensure => :present,
+          )
         end
       end
     end
